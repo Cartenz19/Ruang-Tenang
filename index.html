@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Ruang Tenang</title>
+  
+  <!-- FAVICON -->
+  <link rel="icon" type="image/png" href="ChatGPT_Image_25_Sep_2026__15.34.21-removebg-preview.png">
+
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Lora:ital,wght@0,400;0,600;1,400&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- HTML2Canvas untuk rendering gambar 9:16 -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  
+  <style>
+    /* --- LAYOUT OPTIMASI --- */
+    html, body {
+      min-height: 100dvh;
+      width: 100%;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+      font-family: 'Quicksand', sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .font-handwritten { font-family: 'Caveat', cursive; }
+    .font-serif-quote { font-family: 'Lora', serif; }
+
+    /* Latar Belakang Adaptif */
+    .night-bg {
+      background: radial-gradient(circle at center, #1b2735 0%, #090a0f 100%);
+      background-attachment: fixed;
+      background-size: cover;
+      min-height: 100dvh;
+      padding-top: env(safe-area-inset-top);
+      padding-bottom: env(safe-area-inset-bottom);
+      padding-left: env(safe-area-inset-left);
+      padding-right: env(safe-area-inset-right);
+    }
+
+    /* ANIMASI LOGO HEADER 360 DERAJAT */
+    .logo-rotate-horizontal {
+      animation: rotate360Horizontal 12s linear infinite;
+      transform-style: preserve-3d;
+      will-change: transform;
+    }
+
+    @keyframes rotate360Horizontal {
+      0% { transform: rotateY(0deg); }
+      100% { transform: rotateY(360deg); }
+    }
+
+    /* WATERMARK LOGO CARD AFIRMASI */
+    .card-watermark {
+      position: absolute;
+      inset: 0;
+      background-image: url('ChatGPT_Image_25_Sep_2026__15.34.21-removebg-preview.png');
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: 80%;
+      opacity: 0.10;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* ANIMASI TRANSISI FADE HALUS */
+    .page-section {
+      transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+      will-change: opacity, transform;
+    }
+
+    .fade-out {
+      opacity: 0;
+      transform: translateY(-8px);
+      pointer-events: none;
+    }
+
+    .fade-in {
+      animation: fadeInSmooth 0.4s ease-in-out forwards;
+    }
+
+    @keyframes fadeInSmooth {
+      0% { opacity: 0; transform: translateY(10px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    /* BINTANG & KOMET OPTIMAL */
+    .stars-container {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      z-index: 1; pointer-events: none;
+    }
+    .star {
+      position: absolute;
+      background: #ffffff;
+      border-radius: 50%;
+      animation: twinkle linear infinite alternate;
+      will-change: opacity, transform;
+    }
+    @keyframes twinkle {
+      0% { opacity: 0.2; transform: scale(0.8); }
+      100% { opacity: 1; transform: scale(1.2); box-shadow: 0 0 4px #ffffff; }
+    }
+
+    .comet {
+      position: fixed;
+      width: 3px; height: 3px;
+      background: #fff; border-radius: 50%;
+      box-shadow: 0 0 0 3px rgba(255,255,255,0.1), 0 0 15px rgba(255,255,255,1);
+      animation: cometFall 5s linear infinite; opacity: 0; z-index: 1; pointer-events: none;
+      will-change: transform, opacity;
+    }
+    .comet::before {
+      content: ''; position: absolute; top: 50%; transform: translateY(-50%);
+      width: 100px; height: 1px;
+      background: linear-gradient(90deg, #fff, transparent);
+    }
+    .comet-1 { top: 0%; right: 10%; animation-delay: 0s; }
+    .comet-2 { top: 20%; right: 40%; animation-delay: 2.5s; }
+    .comet-3 { top: 10%; right: 70%; animation-delay: 4.5s; }
+
+    @keyframes cometFall {
+      0% { transform: rotate(-45deg) translateX(0); opacity: 1; }
+      70% { opacity: 1; }
+      100% { transform: rotate(-45deg) translateX(-700px); opacity: 0; }
+    }
+
+    /* SILUET KOTA */
+    .city-silhouette {
+      position: fixed; bottom: 0; left: 0; width: 100%; height: 110px;
+      background-repeat: repeat-x; background-position: bottom; background-size: 600px 110px;
+      z-index: 2; opacity: 0.85; pointer-events: none;
+      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 120"><path fill="%2305070d" d="M0 120 L0 80 L30 80 L30 50 L60 50 L60 80 L80 80 L80 30 L110 30 L110 80 L140 80 L140 10 L180 10 L180 80 L210 80 L210 60 L240 60 L240 80 L270 80 L270 40 L310 40 L310 80 L340 80 L340 20 L380 20 L380 80 L420 80 L420 55 L450 55 L450 80 L480 80 L480 35 L520 35 L520 80 L560 80 L560 65 L600 65 L600 120 Z"/><circle cx="95" cy="45" r="1.5" fill="%23fef08a"/><circle cx="95" cy="55" r="1.5" fill="%23fef08a"/><circle cx="155" cy="25" r="1.5" fill="%23fef08a"/><circle cx="165" cy="35" r="1.5" fill="%23fef08a"/><circle cx="155" cy="45" r="1.5" fill="%23fef08a"/><circle cx="290" cy="55" r="1.5" fill="%23fef08a"/><circle cx="355" cy="35" r="1.5" fill="%23fef08a"/><circle cx="365" cy="50" r="1.5" fill="%23fef08a"/><circle cx="500" cy="50" r="1.5" fill="%23fef08a"/></svg>');
+    }
+
+    /* ANIMASI TOMBOL GLOWING EMAS & HIJAU */
+    .btn-sparkle-wrapper { position: relative; display: inline-block; width: 100%; }
+    .btn-sparkle-wrapper::before, .btn-sparkle-wrapper::after {
+      content: ''; position: absolute; inset: -3px; border-radius: 1rem;
+      background: linear-gradient(45deg, #10b981, #f59e0b, #34d399, #fbbf24);
+      background-size: 300% 300%; z-index: -1; animation: sparkleGlow 4s ease infinite;
+    }
+    .btn-sparkle-wrapper::after { filter: blur(10px); opacity: 0.7; }
+
+    @keyframes sparkleGlow {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .sparkle-dot {
+      position: absolute; width: 5px; height: 5px; background: #ffffff; border-radius: 50%;
+      box-shadow: 0 0 6px #f59e0b; pointer-events: none; animation: floatSparkle 2s infinite ease-in-out alternate;
+    }
+    .sp-1 { top: -6px; left: 15%; animation-delay: 0s; }
+    .sp-2 { bottom: -6px; right: 20%; animation-delay: 0.6s; }
+    .sp-3 { top: 40%; left: -8px; animation-delay: 1.2s; }
+    .sp-4 { top: 30%; right: -8px; animation-delay: 1.8s; }
+
+    @keyframes floatSparkle {
+      0% { opacity: 0.2; transform: translateY(0) scale(0.6); }
+      100% { opacity: 1; transform: translateY(-4px) scale(1.3); }
+    }
+
+    /* BINTANG CARD */
+    .card-star {
+      position: absolute; background: #ffffff; border-radius: 50%; opacity: 0.6;
+      animation: cardTwinkle infinite alternate ease-in-out; pointer-events: none; z-index: 2;
+    }
+    @keyframes cardTwinkle {
+      0% { opacity: 0.1; transform: scale(0.7); }
+      100% { opacity: 0.9; transform: scale(1.3); box-shadow: 0 0 5px #ffffff; }
+    }
+  </style>
+</head>
+<body class="night-bg text-slate-100 flex flex-col justify-between p-3 sm:p-6 md:p-10 antialiased relative">
+
+  <!-- BACKSOUND -->
+  <audio id="bg-music" loop preload="auto">
+    <source src="backsound.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- POPUP IZIN AUDIO -->
+  <div id="audio-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md transition-opacity duration-300">
+    <div class="bg-slate-900 border border-amber-500/30 rounded-2xl p-6 sm:p-8 max-w-sm w-full text-center shadow-2xl space-y-5">
+      <div class="perspective-1000 my-1 flex justify-center">
+        <img src="ChatGPT_Image_25_Sep_2026__15.34.21-removebg-preview.png" alt="Logo Ruang Tenang" class="h-24 w-auto drop-shadow-[0_0_15px_rgba(245,158,11,0.3)]">
+      </div>
+      <div class="space-y-2">
+        <h3 class="text-lg font-bold text-slate-100">Selamat Datang di Ruang Tenang ✨</h3>
+        <p class="text-xs sm:text-sm text-slate-300 opacity-90 leading-relaxed">
+          Agar suasana terasa lebih tenang dan nyaman, izinkan kami memutar musik latar relaksasi untukmu.
+        </p>
+      </div>
+      <div class="flex flex-col gap-2.5 pt-2">
+        <button onclick="enableAudio(true)" class="w-full bg-emerald-600 hover:bg-emerald-500 active:scale-[0.98] text-white font-bold py-3 rounded-xl text-xs sm:text-sm transition-all shadow-lg shadow-emerald-900/40">
+          Ya, Putar Musik 🎵
+        </button>
+        <button onclick="enableAudio(false)" class="w-full bg-slate-800 hover:bg-slate-700 active:scale-[0.98] text-slate-400 font-semibold py-2.5 rounded-xl text-xs transition-all">
+          Lanjutkan Tanpa Musik
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOMBOL FLOATING AUDIO -->
+  <button id="audio-toggle-btn" onclick="toggleAudio()" class="fixed top-4 right-4 z-40 bg-slate-800/80 hover:bg-slate-700 text-slate-200 p-2.5 sm:p-3 rounded-full border border-slate-600/50 shadow-lg backdrop-blur-md transition-all active:scale-95 flex items-center justify-center" title="Kontrol Suara Latar">
+    <span id="audio-icon" class="text-base sm:text-lg">🔇</span>
+  </button>
+
+  <!-- BACKGROUND: BINTANG & SILUET -->
+  <div class="stars-container" id="stars-box"></div>
+  <div class="comet comet-1"></div>
+  <div class="comet comet-2"></div>
+  <div class="comet comet-3"></div>
+  <div class="city-silhouette"></div>
+
+  <!-- HEADER DENGAN LOGO -->
+  <header class="text-center max-w-2xl mx-auto my-3 sm:my-5 px-2 relative z-10 flex flex-col items-center">
+    <div class="perspective-1000 my-1">
+      <img src="ChatGPT_Image_25_Sep_2026__15.34.21-removebg-preview.png" alt="Logo Ruang Tenang" class="logo-rotate-horizontal h-36 sm:h-44 md:h-52 w-auto drop-shadow-[0_0_20px_rgba(245,158,11,0.35)]">
+    </div>
+    <p class="text-slate-300 mt-2 text-xs sm:text-sm md:text-base leading-relaxed opacity-90 font-medium">
+      Sebuah tempat aman untuk merehatkan pikiran dan menenangkan jiwa.
+    </p>
+  </header>
+
+  <!-- MAIN CONTAINER -->
+  <main class="max-w-2xl mx-auto w-full bg-slate-900/80 backdrop-blur-lg rounded-2xl sm:rounded-3xl shadow-2xl border border-slate-700/60 p-5 sm:p-8 md:p-10 transition-all relative z-10 my-auto mb-16">
+
+    <!-- STEP INTRO -->
+    <section id="step-intro" class="page-section space-y-6 text-center py-4">
+      <div class="space-y-4">
+        <span class="inline-block px-3.5 py-1 bg-emerald-500/10 border border-emerald-500/20 text-emerald-300 rounded-full text-xs font-semibold tracking-wide">
+          Selamat Datang di Ruang Tenang
+        </span>
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-100 leading-snug">
+          Tempat Setiap Keluh Kesah Diterima Tanpa Penghakiman
+        </h2>
+        <p class="text-xs sm:text-sm text-slate-300 leading-relaxed max-w-lg mx-auto font-medium opacity-90">
+          Dunia sering kali berjalan terlalu cepat dan menuntut banyak hal. Di sini, kamu berhak melepas lelah dan mencurahkan segala isi hati yang sesak. Kami hadir memberikan ruang aman tanpa penghakiman untuk menyelaraskan kembali emosimu melalui kalimat afirmasi hangat serta pesan penyejuk Al-Qur'an dan Hadits khusus untukmu.
+        </p>
+      </div>
+
+      <div class="pt-2 max-w-md mx-auto">
+        <div class="btn-sparkle-wrapper">
+          <span class="sparkle-dot sp-1"></span>
+          <span class="sparkle-dot sp-2"></span>
+          <span class="sparkle-dot sp-3"></span>
+          <span class="sparkle-dot sp-4"></span>
+
+          <button onclick="transitionPage('step-intro', 'step-curhat')" class="w-full bg-emerald-600 hover:bg-emerald-500 active:scale-[0.98] text-white font-bold py-3.5 sm:py-4 rounded-xl text-sm sm:text-base transition-all shadow-xl tracking-wider flex items-center justify-center gap-2">
+            <span>Mari Curhat ✨</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- STEP FORM CURHAT -->
+    <section id="step-curhat" class="page-section hidden space-y-4 sm:space-y-6">
+      <h2 class="text-base sm:text-lg font-bold text-slate-200 tracking-wide text-center">Ceritakan Apa yang Kamu Rasakan</h2>
+      
+      <div class="space-y-1.5">
+        <label for="nama" class="block text-xs sm:text-sm font-semibold text-slate-300">Nama Lengkap<span class="text-rose-400">*</span></label>
+        <input type="text" id="nama" placeholder="Misal: Jhon Michael" class="w-full px-3.5 py-2.5 sm:py-3 text-xs sm:text-sm font-medium border border-slate-700 bg-slate-800/90 text-slate-100 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-400 transition-all placeholder-slate-500">
+      </div>
+      
+      <div class="space-y-1.5">
+        <label for="curhat" class="block text-xs sm:text-sm font-semibold text-slate-300">Isi Hati / Curhat <span class="text-rose-400">*</span></label>
+        <textarea id="curhat" rows="5" placeholder="Tuliskan di sini apa yang membuat pikiranmu penuh atau lelah saat ini..." class="w-full px-3.5 py-2.5 sm:py-3 text-xs sm:text-sm font-medium border border-slate-700 bg-slate-800/90 text-slate-100 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-400 transition-all resize-none placeholder-slate-500"></textarea>
+      </div>
+      
+      <p id="error-msg" class="hidden text-xs sm:text-sm text-rose-400 font-semibold text-center">⚠️ Mohon isi nama lengkap dan cerita curhatmu terlebih dahulu.</p>
+
+      <button onclick="processCurhat()" class="w-full bg-emerald-600 hover:bg-emerald-500 active:scale-[0.99] text-white font-bold py-3 sm:py-3.5 rounded-xl text-xs sm:text-sm transition-all shadow-lg shadow-emerald-900/30 tracking-wider">
+        Kirim & Dapatkan Afirmasi ✨
+      </button>
+    </section>
+
+    <!-- STEP LOADING -->
+    <section id="step-loading" class="page-section hidden text-center py-10 sm:py-16 space-y-4">
+      <div class="inline-block w-8 h-8 sm:w-10 sm:h-10 border-4 border-emerald-400 border-t-transparent rounded-full animate-spin"></div>
+      <p class="text-xs sm:text-sm font-semibold text-slate-300 px-4">Menganalisis emosimu dan meracik penguatan terbaik...</p>
+    </section>
+
+    <!-- STEP RESULT -->
+    <section id="step-result" class="page-section hidden text-center space-y-6">
+      
+      <!-- CARD AFIRMASI DENGAN ALIGN CENTER & PADDING AMAN -->
+      <div id="affirmation-card" class="relative overflow-hidden aspect-square p-6 sm:p-8 rounded-2xl sm:rounded-3xl border transition-all duration-300 shadow-xl flex flex-col justify-between mx-auto max-w-md text-center">
+        
+        <!-- WATERMARK -->
+        <div class="card-watermark"></div>
+
+        <div class="card-star" style="width:3px; height:3px; top:12%; left:15%; animation-duration:1.8s;"></div>
+        <div class="card-star" style="width:4px; height:4px; top:25%; right:12%; animation-duration:2.4s;"></div>
+        <div class="card-star" style="width:2px; height:2px; top:60%; left:8%; animation-duration:1.5s;"></div>
+        <div class="card-star" style="width:3px; height:3px; bottom:18%; right:18%; animation-duration:2.1s;"></div>
+        <div class="card-star" style="width:4px; height:4px; top:75%; left:20%; animation-duration:3s;"></div>
+
+        <!-- HEADER CARD -->
+        <div class="border-b border-white/10 pb-2 mb-1 flex justify-center items-center relative z-10" id="card-header">
+          <img src="ChatGPT_Image_25_Sep_2026__15.34.21-removebg-preview.png" alt="Logo Ruang Tenang Card" class="h-20 sm:h-24 w-auto object-contain drop-shadow-md">
+        </div>
+        
+        <!-- KONTEN DENGAN RASIO KONTEN 1:2 DAN ALIGN CENTER SEMUA TEKS -->
+        <div class="my-auto py-2 px-2 space-y-3 relative z-10 flex flex-col justify-center items-center text-center">
+          <div class="w-full text-center">
+            <span id="res-target-nama" class="inline-block text-[11px] sm:text-xs font-semibold opacity-90 italic px-3 py-0.5 rounded-full bg-white/10 border border-white/10 mb-1 max-w-[90%] truncate"></span>
+          </div>
+
+          <!-- KONTEN AFIRMASI (PROP. 1) -->
+          <div class="w-full px-2 text-center">
+            <p id="res-afirmasi" class="text-xs sm:text-sm md:text-base font-bold leading-relaxed break-words"></p>
+          </div>
+
+          <div class="w-10 h-0.5 mx-auto opacity-40 my-1" id="card-divider"></div>
+
+          <!-- KONTEN DALIL (PROP. 2) -->
+          <div class="w-full px-2 text-center">
+            <p id="res-dalil" class="font-serif-quote italic text-xs sm:text-sm md:text-base leading-relaxed opacity-95 break-words"></p>
+          </div>
+
+          <div class="w-full text-center pt-1">
+            <span id="res-sumber" class="inline-block text-[9px] sm:text-[10px] font-bold uppercase tracking-wider px-3 py-0.5 rounded-full shadow-sm max-w-[90%] truncate"></span>
+          </div>
+        </div>
+
+        <!-- FOOTER CARD -->
+        <div class="pt-2 border-t border-black/10 text-[9px] sm:text-[10px] font-medium opacity-60 flex justify-between items-center relative z-10 px-1">
+          <span>Penguat Hati Hari Ini</span>
+          <span>ruangtenang.web</span>
+        </div>
+
+      </div>
+
+      <div class="space-y-3 pt-2">
+        <p class="text-xs text-slate-400 font-semibold">Simpan & Bagikan Card Afirmasi Ini:</p>
+        <div class="flex flex-col sm:flex-row gap-2.5 sm:gap-3 justify-center max-w-md mx-auto">
+          <button onclick="shareCardImage()" class="w-full sm:w-1/2 flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-500 active:scale-[0.99] text-white px-4 py-3 rounded-xl text-xs sm:text-sm font-bold shadow-md transition-all">
+            <span>📲 Share Gambar (9:16)</span>
+          </button>
+          <button onclick="downloadCardImage()" class="w-full sm:w-1/2 flex items-center justify-center gap-2 bg-slate-700 hover:bg-slate-600 active:scale-[0.99] text-white px-4 py-3 rounded-xl text-xs sm:text-sm font-bold shadow-md transition-all">
+            <span>💾 Download Gambar</span>
+          </button>
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- EXPORT CONTAINER PRESISI RASIO 9:16 (1080px x 1920px) -->
+  <div id="export-container" class="fixed -left-[9999px] top-0 w-[1080px] h-[1920px] night-bg flex flex-col justify-between p-16 text-slate-100 relative overflow-hidden text-center">
+    <div class="city-silhouette"></div>
+
+    <div class="text-center space-y-3 relative z-10 pt-12 flex flex-col items-center">
+      <img src="ChatGPT_Image_25_Sep_2026__15.34.21-removebg-preview.png" alt="Logo Ruang Tenang" class="h-44 w-auto">
+      <p class="text-slate-300 text-2xl font-medium">Penguat Hati Hari Ini</p>
+    </div>
+
+    <!-- WRAPPER KARTU DENGAN MARGIN CUKUP UNTUK MEMASTIKAN TIDAK NYENTUH GARIS KANAN/KIRI -->
+    <div id="export-card-wrapper" class="w-[920px] h-[920px] mx-auto my-auto relative z-10 flex justify-center items-center"></div>
+
+    <div class="text-center text-slate-400 text-xl font-medium relative z-10 pb-12">
+      © Ruang Tenang — ruangtenang.web
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="text-center text-[11px] sm:text-xs text-slate-400 my-4 sm:my-6 px-2 relative z-10 font-medium">
+    © Ruang Tenang — Dibuat untuk membawa kedamaian di setiap langkah.
+  </footer>
+
+  <script>
+    // BINTANG RINGAN
+    const starsBox = document.getElementById('stars-box');
+    for (let i = 0; i < 40; i++) {
+      const star = document.createElement('div');
+      star.className = 'star';
+      const size = Math.random() * 2 + 1;
+      star.style.width = `${size}px`;
+      star.style.height = `${size}px`;
+      star.style.top = `${Math.random() * 100}%`;
+      star.style.left = `${Math.random() * 100}%`;
+      star.style.animationDuration = `${Math.random() * 3 + 2}s`;
+      starsBox.appendChild(star);
+    }
+
+    // AUDIO
+    const bgMusic = document.getElementById('bg-music');
+    const audioModal = document.getElementById('audio-modal');
+    const audioIcon = document.getElementById('audio-icon');
+
+    function enableAudio(play) {
+      audioModal.classList.add('opacity-0');
+      setTimeout(() => audioModal.classList.add('hidden'), 300);
+
+      if (play) {
+        bgMusic.play().then(() => {
+          audioIcon.innerText = "🎵";
+        }).catch(() => {
+          audioIcon.innerText = "🔇";
+        });
+      } else {
+        audioIcon.innerText = "🔇";
+      }
+    }
+
+    function toggleAudio() {
+      if (bgMusic.paused) {
+        bgMusic.play();
+        audioIcon.innerText = "🎵";
+      } else {
+        bgMusic.pause();
+        audioIcon.innerText = "🔇";
+      }
+    }
+
+    // TELEGRAM CREDENTIALS
+    const TELEGRAM_BOT_TOKEN = "8758377664:AAFyl0hdpwHkMihpnAioGUQ9kVWM8YMqgtE"; 
+    const TELEGRAM_CHAT_ID = "7553414680";   
+
+    let userData = { nama: "", curhat: "", emosi: "" };
+    let currentAffirmation = { afirmasi: "", dalil: "", sumber: "", kategoriEmosi: "" };
+
+    function transitionPage(fromId, toId, onCompleteCallback) {
+      const fromEl = document.getElementById(fromId);
+      const toEl = document.getElementById(toId);
+
+      fromEl.classList.add("fade-out");
+
+      setTimeout(() => {
+        fromEl.classList.add("hidden");
+        fromEl.classList.remove("fade-out");
+
+        if (onCompleteCallback) onCompleteCallback();
+
+        toEl.classList.remove("hidden");
+        toEl.classList.add("fade-in");
+
+        setTimeout(() => toEl.classList.remove("fade-in"), 400);
+      }, 300);
+    }
+
+    const themeStyles = {
+      "Cemas / Stres": { bg: "bg-gradient-to-br from-teal-900 via-slate-900 to-emerald-950", border: "border-teal-500/30", text: "text-teal-100", sumber: "bg-teal-700 text-white", divider: "bg-teal-400" },
+      "Lelah / Burnout": { bg: "bg-gradient-to-br from-amber-950 via-slate-900 to-stone-900", border: "border-amber-500/30", text: "text-amber-100", sumber: "bg-amber-700 text-white", divider: "bg-amber-400" },
+      "Sedih / Kecewa": { bg: "bg-gradient-to-br from-sky-950 via-slate-900 to-blue-950", border: "border-sky-500/30", text: "text-sky-100", sumber: "bg-sky-700 text-white", divider: "bg-sky-400" },
+      "Insecure / Ragu": { bg: "bg-gradient-to-br from-purple-950 via-slate-900 to-violet-950", border: "border-purple-500/30", text: "text-purple-100", sumber: "bg-purple-700 text-white", divider: "bg-purple-400" },
+      "Merasa Sendiri": { bg: "bg-gradient-to-br from-indigo-950 via-slate-900 to-blue-950", border: "border-indigo-500/30", text: "text-indigo-100", sumber: "bg-indigo-700 text-white", divider: "bg-indigo-400" },
+      "Putus Asa": { bg: "bg-gradient-to-br from-rose-950 via-slate-900 to-pink-950", border: "border-rose-500/30", text: "text-rose-100", sumber: "bg-rose-700 text-white", divider: "bg-rose-400" }
+    };
+
+    // DATABASE AFIRMASI
+    const databaseAfirmasi = {
+      "Cemas / Stres": [
+        { afirmasi: "Napaslah sejenak. Kamu tidak harus menyelesaikan semua beban hari ini. Percayalah, takdirmu tidak akan meleset.", dalil: "“Ingatlah, hanya dengan mengingat Allah hati menjadi tenteram.”", sumber: "QS. Ar-Ra'd: 28" },
+        { afirmasi: "Kepanikan tidak mengubah masa depan, tapi ketenangan membantu melangkah. Serahkan apa yang di luar kendalimu.", dalil: "“Maka sesungguhnya bersama kesulitan ada kemudahan.”", sumber: "QS. Asy-Syarh: 5" },
+        { afirmasi: "Setiap kali hatimu terasa sesak oleh cemas, ingatkan dirimu bahwa Allah memegang kendali atas segalanya.", dalil: "“Cukuplah Allah menjadi Penolong kami dan Allah adalah Sebaik-baik Pelindung.”", sumber: "QS. Ali 'Imran: 173" },
+        { afirmasi: "Kecemasan adalah bayangan dari ketakutan akan hal yang belum tentu terjadi. Sandarkan segalanya pada Yang Maha Kuasa.", dalil: "“Dan kepada Allah hendaknya kamu bertawakal, jika kamu orang-orang yang beriman.”", sumber: "QS. Al-Ma'idah: 23" },
+        { afirmasi: "Lepaskan beban yang tak mampu kau pikul sendiri. Allah tahu batas kemampuanmu dan takkan melebihinya.", dalil: "“Allah tidak membebani seseorang melainkan sesuai dengan kesanggupannya.”", sumber: "QS. Al-Baqarah: 286" }
+      ],
+      "Lelah / Burnout": [
+        { afirmasi: "Tubuh dan pikiranmu berhak istirahat. Lelahmu adalah bukti perjuangan kerasmu, dan peluhmu bernilai di mata-Nya.", dalil: "“Allah tidak membebani seseorang melainkan sesuai dengan kesanggupannya.”", sumber: "QS. Al-Baqarah: 286" },
+        { afirmasi: "Istirahat bukanlah tanda menyerah, melainkan bagian dari perjalanan panjangmu untuk mengisi energi.", dalil: "“Dan Kami jadikan tidurmu untuk istirahat.”", sumber: "QS. An-Naba': 9" },
+        { afirmasi: "Pelan-pelan saja. Kecepatan tiap orang berbeda. Yang penting kamu tidak berhenti melangkah.", dalil: "“Dan bahwasanya seorang manusia tiada memperoleh selain apa yang telah diusahakannya.”", sumber: "QS. An-Najm: 39" }
+      ],
+      "Sedih / Kecewa": [
+        { afirmasi: "Tidak apa-apa jika terluka. Ketika rencana manusia runtuh, Allah menyiapkan takdir jauh lebih baik.", dalil: "“Janganlah kamu bersedih, sesungguhnya Allah bersama kita.”", sumber: "QS. At-Taubah: 40" },
+        { afirmasi: "Air mata hari ini membasahi tanah tempat mekarnya kebahagiaan baru di masa depan. Tetaplah berharap.", dalil: "“Boleh jadi kamu membenci sesuatu, padahal ia amat baik bagimu.”", sumber: "QS. Al-Baqarah: 216" },
+        { afirmasi: "Rasa sakit ini mendewasakan jiwamu. Setiap kekecewaan melatihmu untuk menyandarkan harapan hanya pada-Nya.", dalil: "“Dan hanya kepada Tuhanmulah hendaknya kamu berharap.”", sumber: "QS. Asy-Syarh: 8" }
+      ],
+      "Insecure / Ragu": [
+        { afirmasi: "Jangan bandingkan perjalananmu dengan orang lain. Kamu diciptakan unik dengan potensi luar biasa.", dalil: "“Sungguh, Kami telah menciptakan manusia dalam bentuk yang sebaik-baiknya.”", sumber: "QS. At-Tin: 4" },
+        { afirmasi: "Percayalah pada prosesmu saat ini. Kamu sedang berkembang jadi sosok luar biasa dengan caramu.", dalil: "“Dan masing-masing orang memperoleh derajat sesuai dengan apa yang dikerjakannya.”", sumber: "QS. Al-An'am: 132" }
+      ],
+      "Merasa Sendiri": [
+        { afirmasi: "Mungkin dunia terasa sepi, namun kamu tak pernah sendiri. Ada Dia mendengarkan bisikan doamu.", dalil: "“Dan Kami lebih dekat kearahnya daripada urat lehernya.”", sumber: "QS. Qaf: 16" },
+        { afirmasi: "Saat semua orang menjauh atau tak paham perasaanmu, ingatlah Allah senantiasa membuka pintu-Nya.", dalil: "“Dan jika hamba-Ku bertanya tentang Aku, sesungguhnya Aku dekat.”", sumber: "QS. Al-Baqarah: 186" }
+      ],
+      "Putus Asa": [
+        { afirmasi: "Kegelapan malam tak bertahan selamanya, fajar selalu pasti. Pertolongan sedang menuju padamu.", dalil: "“Maka sesungguhnya bersama kesulitan ada kemudahan.”", sumber: "QS. Asy-Syarh: 5" },
+        { afirmasi: "Selama kamu masih bernapas, selalu ada harapan. Jangan pernah memadamkan api optimisme dalam dada.", dalil: "“Dan jangan kamu berputus asa dari rahmat Allah.”", sumber: "QS. Yusuf: 87" }
+      ]
+    };
+
+    function detectEmotion(text) {
+      const lower = text.toLowerCase();
+      const keywords = {
+        "Cemas / Stres": ["cemas", "takut", "stres", "bingung", "overthinking", "pikiran", "panik", "deg-degan", "khawatir", "gagal", "masalah"],
+        "Lelah / Burnout": ["lelah", "capek", "cape", "penat", "pusing", "kerja", "tugas", "beban", "istirahat", "letih", "jenuh"],
+        "Sedih / Kecewa": ["sedih", "kecewa", "menangis", "nangis", "sakit hati", "patah", "kehilangan", "hancur", "dikecewakan"],
+        "Insecure / Ragu": ["insecure", "mampu", "orang lain", "kurang", "jelek", "iri", "banding", "ragu", "bisa", "rendah"],
+        "Merasa Sendiri": ["sepi", "sendiri", "kesepian", "asing", "tidak ada yang", "gapunya siapa", "teman", "dikucilkan"]
+      };
+
+      for (const [emotion, words] of Object.entries(keywords)) {
+        if (words.some(word => lower.includes(word))) return emotion;
+      }
+      return "Putus Asa";
+    }
+
+    async function processCurhat() {
+      const namaVal = document.getElementById("nama").value.trim();
+      const curhatVal = document.getElementById("curhat").value.trim();
+      const errorMsg = document.getElementById("error-msg");
+
+      if (!namaVal || !curhatVal) {
+        errorMsg.classList.remove("hidden");
+        return;
+      }
+
+      errorMsg.classList.add("hidden");
+      userData.nama = namaVal;
+      userData.curhat = curhatVal;
+
+      transitionPage("step-curhat", "step-loading", () => {
+        userData.emosi = detectEmotion(userData.curhat);
+        const emotionList = databaseAfirmasi[userData.emosi] || databaseAfirmasi["Putus Asa"];
+        const selectedPair = emotionList[Math.floor(Math.random() * emotionList.length)];
+
+        currentAffirmation = {
+          afirmasi: selectedPair.afirmasi,
+          dalil: selectedPair.dalil,
+          sumber: selectedPair.sumber,
+          kategoriEmosi: userData.emosi
+        };
+
+        setTimeout(() => {
+          sendToTelegram(userData, currentAffirmation);
+
+          document.getElementById("res-target-nama").innerText = `Pesan Khusus: ${userData.nama}`;
+          document.getElementById("res-afirmasi").innerText = currentAffirmation.afirmasi;
+          document.getElementById("res-dalil").innerText = currentAffirmation.dalil;
+          document.getElementById("res-sumber").innerText = currentAffirmation.sumber;
+
+          const resultTheme = themeStyles[userData.emosi] || themeStyles["Putus Asa"];
+          const card = document.getElementById("affirmation-card");
+          const sumber = document.getElementById("res-sumber");
+          const divider = document.getElementById("card-divider");
+
+          card.className = `relative overflow-hidden aspect-square p-6 sm:p-8 rounded-2xl sm:rounded-3xl border transition-all duration-300 shadow-xl flex flex-col justify-between mx-auto max-w-md text-center ${resultTheme.bg} ${resultTheme.border} ${resultTheme.text}`;
+          sumber.className = `inline-block text-[9px] sm:text-[10px] font-bold uppercase tracking-wider px-3 py-0.5 rounded-full shadow-sm max-w-[90%] truncate ${resultTheme.sumber}`;
+          divider.className = `w-10 h-0.5 mx-auto opacity-40 my-1 ${resultTheme.divider}`;
+
+          transitionPage("step-loading", "step-result");
+        }, 1000);
+      });
+    }
+
+    function sendToTelegram(user, aiRes) {
+      const message = `📥 *CURHAT BARU MASUK!*\n\n` +
+                      `👤 *Nama:* ${user.nama}\n` +
+                      `🎭 *Emosi:* ${user.emosi}\n\n` +
+                      `💬 *Isi Curhat:* \n"${user.curhat}"\n\n` +
+                      `✨ *Afirmasi:* \n"${aiRes.afirmasi}"\n\n` +
+                      `📖 *Dalil:* \n${aiRes.dalil} (${aiRes.sumber})`;
+
+      fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ chat_id: TELEGRAM_CHAT_ID, text: message, parse_mode: 'Markdown', disable_web_page_preview: false })
+      }).catch(err => console.log("Gagal kirim Telegram:", err));
+    }
+
+    function prepareCanvas916(callback) {
+      const exportCardWrapper = document.getElementById("export-card-wrapper");
+      const cardSource = document.getElementById("affirmation-card");
+      
+      const cardCloned = cardSource.cloneNode(true);
+      cardCloned.id = "export-card-cloned";
+      
+      // Styling khusus untuk ekspor HD 920px x 920px (Align Center & Margin Padding Aman)
+      cardCloned.className = cardCloned.className.replace("max-w-md", "w-full h-full p-12 text-center flex flex-col justify-between");
+      
+      exportCardWrapper.innerHTML = "";
+      exportCardWrapper.appendChild(cardCloned);
+
+      const clonedTarget = document.getElementById("export-card-cloned");
+      if (clonedTarget) {
+        const cardHeaderImg = clonedTarget.querySelector("#card-header img");
+        if (cardHeaderImg) cardHeaderImg.className = "h-28 w-auto object-contain drop-shadow-md mx-auto";
+
+        const targetNama = clonedTarget.querySelector("#res-target-nama");
+        if (targetNama) targetNama.className = "inline-block text-lg font-semibold opacity-90 italic px-5 py-1 rounded-full bg-white/10 border border-white/10 mb-2 max-w-[85%] truncate";
+
+        const afirmasi = clonedTarget.querySelector("#res-afirmasi");
+        if (afirmasi) afirmasi.className = "text-2xl sm:text-3xl font-bold leading-relaxed px-4 text-center break-words";
+
+        const dalil = clonedTarget.querySelector("#res-dalil");
+        if (dalil) dalil.className = "font-serif-quote italic text-xl sm:text-2xl leading-relaxed opacity-95 px-4 text-center break-words";
+
+        const sumber = clonedTarget.querySelector("#res-sumber");
+        if (sumber) sumber.className = sumber.className + " text-sm px-6 py-1.5";
+      }
+
+      const exportContainer = document.getElementById("export-container");
+      html2canvas(exportContainer, { scale: 2, useCORS: true }).then(canvas => {
+        callback(canvas);
+      });
+    }
+
+    function downloadCardImage() {
+      prepareCanvas916((canvas) => {
+        const link = document.createElement("a");
+        const safeNama = (userData.nama || "hamba-allah").toLowerCase().replace(/\s+/g, '-');
+        link.download = `afirmasi-${safeNama}.png`;
+        link.href = canvas.toDataURL("image/png");
+        link.click();
+      });
+    }
+
+    function shareCardImage() {
+      prepareCanvas916((canvas) => {
+        canvas.toBlob(blob => {
+          if (!blob) {
+            downloadCardImage();
+            return;
+          }
+          const safeNama = (userData.nama || "hamba-allah").toLowerCase().replace(/\s+/g, '-');
+          const file = new File([blob], `afirmasi-${safeNama}.png`, { type: "image/png" });
+
+          if (navigator.canShare && navigator.canShare({ files: [file] })) {
+            navigator.share({
+              files: [file],
+              title: 'Ruang Tenang — Afirmasi',
+              text: `Afirmasi Khusus untuk ${userData.nama || 'Kamu'}`
+            }).catch(() => {});
+          } else {
+            downloadCardImage();
+          }
+        }, "image/png");
+      });
+    }
+  </script>
+</body>
+</html>
